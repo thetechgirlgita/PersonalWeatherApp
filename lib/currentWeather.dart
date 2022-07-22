@@ -19,8 +19,47 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundC,
-        body: Center(
-          child: FutureBuilder(
+        appBar: AppBar(
+        backgroundColor: appbarC,
+        centerTitle: true,
+        title:  const Text("Weather Forecast",
+        style: TextStyle(
+        color: Colors.white,
+        fontSize: 28,
+        fontWeight: FontWeight.bold,
+    )),),
+        body: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children:  [
+                Padding(
+                  child: IconButton(
+                    onPressed: (){
+                      showSearch(
+                        context: context,
+                        delegate: ListOfCountries(),
+                      );
+                    },
+                    icon:  const Icon(Icons.location_pin,
+                      color: Colors.yellow,
+                      size: 35,
+                    ),
+                  ),
+
+                  padding: const EdgeInsets.only(top: 10),
+                ),
+                const Text("Delhi",
+                    style: TextStyle(
+                      fontSize: 25,
+                      color:  Colors.white,
+                      fontWeight: FontWeight.bold,
+                    )
+                ),
+
+
+           FutureBuilder(
             builder: (context, snapshot) {
               // ignore: unnecessary_null_comparison
               if (snapshot.hasData) {
@@ -37,7 +76,7 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
             },
             future: getCurrentWeather(),
           ),
-        )
+        ],),],),
     );
   }
 }
@@ -102,4 +141,86 @@ Future getCurrentWeather() async {
 
   return weather;
 }
+class ListOfCountries extends SearchDelegate {
+// Demo list to show querying
+  List<String> searchTerms = [
+    "India",
+    "Nepal",
+    "Maldives",
+    "USA",
+    "Canada",
+    "China",
+    "Russia",
+    "Srilanka",
+    "IreLand",
+    "Newzealand",
+    "Japan",
+    "Germany",
+    "France",
+    "Paris"
+  ];
 
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [
+      IconButton(
+        onPressed: () {
+          query = '';
+        },
+        icon: const Icon(Icons.clear),
+      ),
+    ];
+  }
+
+// second overwrite to pop out of search menu
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      onPressed: () {
+        close(context, null);
+      },
+      icon: const Icon(Icons.arrow_back),
+    );
+  }
+
+// third overwrite to show query result
+  @override
+  Widget buildResults(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var country in searchTerms) {
+      if (country.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(country);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+
+// last overwrite to show the
+// querying process at the runtime
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    List<String> matchQuery = [];
+    for (var fruit in searchTerms) {
+      if (fruit.toLowerCase().contains(query.toLowerCase())) {
+        matchQuery.add(fruit);
+      }
+    }
+    return ListView.builder(
+      itemCount: matchQuery.length,
+      itemBuilder: (context, index) {
+        var result = matchQuery[index];
+        return ListTile(
+          title: Text(result),
+        );
+      },
+    );
+  }
+}

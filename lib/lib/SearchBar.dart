@@ -1,95 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:weatherapp/currentWeather.dart';
 
+class SearchBar extends StatefulWidget {
+  const SearchBar({Key? key}) : super(key: key);
 
-class ListOfCountries extends SearchDelegate {
-// Demo list to show querying
-  List<String> searchTerms = [
-    "India",
-    "Nepal",
-    "Maldives",
-    "USA",
-    "Canada",
-    "China",
-    "Russia",
-    "Srilanka",
-    "IreLand",
-    "Neazeland",
-    "Japan",
-    "Germany",
-    "France",
-    "Paris"
-  ];
-
-  // first overwrite to
-// clear the search text
   @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [
-      IconButton(
-        onPressed: () {
-          query = '';
-        },
-        icon: const Icon(Icons.clear),
-      ),
-    ];
-  }
+  _SearchBarState createState() => _SearchBarState();
+}
 
-// second overwrite to pop out of search menu
+class _SearchBarState extends State<SearchBar> {
   @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-      onPressed: () {
-        close(context, null);
-      },
-      icon: const Icon(Icons.arrow_back),
-    );
-  }
-
-// third overwrite to show query result
-  @override
-  Widget buildResults(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var country in searchTerms) {
-      if (country.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(country);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        final result = matchQuery[index];
-        return ListTile(
-          title: Text(result),
-        );
-      },
-    );
-  }
-
-// last overwrite to show the
-// querying process at the runtime
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    List<String> matchQuery = [];
-    for (var country in searchTerms) {
-      if (country.toLowerCase().contains(query.toLowerCase())) {
-        matchQuery.add(country);
-      }
-    }
-    return ListView.builder(
-      itemCount: matchQuery.length,
-      itemBuilder: (context, index) {
-        var result = matchQuery[index];
-        return ListTile(
-          onTap: () {
-            query = result;
-            close(context, result);
-            Navigator.push(context, MaterialPageRoute(builder:( BuildContext context)  => const CurrentWeatherPage()
-            ),);
-          },
-          title: Text(result),
-        );
-      },
-    );
+  Widget build(BuildContext context) {
+    return Container();
   }
 }
+
+
+

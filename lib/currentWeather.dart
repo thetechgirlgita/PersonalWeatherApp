@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Colors.dart';
+//import 'lib/SearchBar.dart';
 import 'lib/SearchBar.dart';
 import 'weatherStyle.dart';
 import 'package:http/http.dart' as http;
@@ -40,29 +41,22 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            child: IconButton(
-              onPressed: () async{
-                showSearch(
-                  context: context,
-                  delegate: ListOfCountries(),
 
-                );
-              },
-              icon: const Icon(
-                Icons.location_pin,
-                color: Colors.yellow,
-                size: 35,
-              ),
-            ),
-            padding: const EdgeInsets.only(top: 10),
-          ),
-          const Text(location,
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            children:const [
+
+
+
+
+
+          Text(location,
               style: TextStyle(
                 fontSize: 25,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-              )),
+              )),]),
           const SizedBox(
             height: 40,
           ),

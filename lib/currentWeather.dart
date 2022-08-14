@@ -1,17 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:flutter/widgets.dart';
 import 'Colors.dart';
-//import 'lib/SearchBar.dart';
-import 'lib/SearchBar.dart';
 import 'weatherStyle.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'apiKeys.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const location = "Noida,137";
+final Icon  iconC;
+
+void IconGet (){
+
+},
 
 class CurrentWeatherPage extends StatefulWidget {
   const CurrentWeatherPage({Key? key, String? title}) : super(key: key);
+
 
   @override
   _CurrentWeatherPageState createState() => _CurrentWeatherPageState();
@@ -19,6 +25,8 @@ class CurrentWeatherPage extends StatefulWidget {
 
 class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   late Weather _weather;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -83,11 +91,12 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 Widget weatherBox(Weather _weather) {
   return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
     Column(children: [
-      const Icon(
-        Icons.wb_sunny_rounded,
-        color: Colors.amber,
-        size: 50,
-      ),
+      //  const Icon( Icons($_weatherIcon),
+        const Icon(
+
+          Icons.cloud_sharp,
+        ),
+     // ),
       const SizedBox(
         height: 30,
         width: 30,
@@ -116,11 +125,14 @@ Widget weatherBox(Weather _weather) {
     Container(
         margin: const EdgeInsets.all(5.0),
         child: Text(
-          "H:${_weather.high}°C L:${_weather.low}°C",
+          "Max: ${_weather.high}°C Mini :${_weather.low}°C",
           style: TextStyle(
               fontWeight: FontWeight.bold, fontSize: 20, color: textC),
         )),
   ]);
+}
+
+class _weatherIcon {
 }
 
 Future getCurrentWeather() async {

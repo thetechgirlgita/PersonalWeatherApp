@@ -8,12 +8,22 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'apiKeys.dart';
 
+
 const location = "Noida,137";
-final Icon  iconC;
 
-void IconGet (){
 
-},
+Image IconGet (Weather _weather){
+  Image  iconC;
+ iconC = Image.asset('Icons/sunny.png');
+ if(_weather.description == 'light rain'){
+   iconC = Image.asset('Icons/weather-app.png');
+ };
+  if ( _weather.description == 'cloudy'){
+    iconC = Image.asset('Icons/cloudy.png');
+  }
+
+  return iconC;
+  }
 
 class CurrentWeatherPage extends StatefulWidget {
   const CurrentWeatherPage({Key? key, String? title}) : super(key: key);
@@ -89,14 +99,16 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 }
 
 Widget weatherBox(Weather _weather) {
-  return Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-    Column(children: [
-      //  const Icon( Icons($_weatherIcon),
-        const Icon(
+  return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+    Column(children:  [
 
-          Icons.cloud_sharp,
-        ),
-     // ),
+      Container(
+        width: 100,
+        height: 100,
+        child: IconGet(_weather),),
+
       const SizedBox(
         height: 30,
         width: 30,
@@ -132,8 +144,7 @@ Widget weatherBox(Weather _weather) {
   ]);
 }
 
-class _weatherIcon {
-}
+
 
 Future getCurrentWeather() async {
   Weather weather;

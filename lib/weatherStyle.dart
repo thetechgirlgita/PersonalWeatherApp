@@ -7,7 +7,7 @@ class Weather {
   final double feelsLike;
   final double low;
   final double high;
-  final String description;
+  late final String description;
 
 
   Weather( {

@@ -9,18 +9,26 @@ import 'dart:convert';
 import 'apiKeys.dart';
 
 
-const location = "Noida,137";
+const location = "Australia";
 
 
 Image IconGet (Weather _weather){
   Image  iconC;
- iconC = Image.asset('Icons/sunny.png');
+ iconC = Image.asset('lib/images/sunny.png');
  if(_weather.description == 'light rain'){
-   iconC = Image.asset('Icons/weather-app.png');
+   iconC = Image.asset('lib/images/weather-app.png');
  };
   if ( _weather.description == 'cloudy'){
-    iconC = Image.asset('Icons/cloudy.png');
+    iconC = Image.asset('lib/images/cloudy.png');
   }
+  if ( _weather.description == 'clear sky'){
+    iconC = Image.asset('lib/images/sunny.png');
+  }
+  if ( _weather.description == 'thunderbolt'){
+    iconC = Image.asset('lib/images/storm.png');
+  }
+
+
 
   return iconC;
   }

@@ -1,15 +1,22 @@
 import 'dart:ui';
 
-class Weather {
-  final double temp;
-  final double feelsLike;
-  final double low;
-  final double high;
-  final String description;
-  //final String weatherIcon;
+import 'package:flutter/material.dart';
 
-  Weather( {//required this.weatherIcon,
-     required this.temp, required this.feelsLike, required this.low, required this.high, required this.description});
+class Weather {
+  final int temp;
+  final int feelsLike;
+  final int low;
+  final int high;
+  final String description;
+  final String weatherIcon;
+
+  Weather( {
+    required this.weatherIcon,
+    required this.temp,
+    required this.feelsLike,
+    required this.low,
+    required this.high,
+    required this.description});
 
   factory Weather.fromJson(Map<String, dynamic> json) {
     return Weather(
@@ -19,6 +26,7 @@ class Weather {
       low: json['main']['temp_min'].toDouble(),
       high: json['main']['temp_max'].toDouble(),
       description: json['weather'][0]['description'],
+      weatherIcon: json['weather']['icon'],
 
     );
   }

@@ -11,7 +11,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 const location = "Noida,137";
 
 class CurrentWeatherPage extends StatefulWidget {
-  const CurrentWeatherPage( {Key? key, String? title}) : super(key: key);
+  const CurrentWeatherPage({Key? key, String? title}) : super(key: key);
 
   @override
   _CurrentWeatherPageState createState() => _CurrentWeatherPageState();
@@ -19,9 +19,6 @@ class CurrentWeatherPage extends StatefulWidget {
 
 class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   late Weather _weather;
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -41,22 +38,17 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-
           Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
-            children:const [
-
-
-
-
-
-          Text(location,
-              style: TextStyle(
-                fontSize: 25,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              )),]),
+              children: const [
+                Text(location,
+                    style: TextStyle(
+                      fontSize: 25,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    )),
+              ]),
           const SizedBox(
             height: 40,
           ),
@@ -93,6 +85,7 @@ Widget weatherBox(Weather _weather) {
     Column(children: [
       const Icon(
         Icons.wb_sunny_rounded,
+        color: Colors.amber,
         size: 50,
       ),
       const SizedBox(
@@ -143,5 +136,3 @@ Future getCurrentWeather() async {
 
   return weather;
 }
-
-

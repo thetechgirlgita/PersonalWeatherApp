@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:flutter/widgets.dart';
 import 'Colors.dart';
-
 import 'weatherStyle.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -108,35 +105,53 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 }
 
 Widget weatherBox(Weather _weather) {
-  return Column(mainAxisSize: MainAxisSize.min, children: [
-    Row(
-        children: [
-      Column(
-          children: [
-        Container(
-          width: 100,
-          height: 100,
-          child: IconGet(_weather),
+  return
+    Column(mainAxisSize: MainAxisSize.min, children: [
+    Container(
+      height: 180,
+      width: 340,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: backgroundC,
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.amber,
+            offset: Offset(-2, -2),
+            blurRadius: 10,
+            spreadRadius: 1.5,
+          ),
+        ],
+      ),
+      child: Row(children: [
+        Column(children: [
+          Container(
+            width: 100,
+            height: 100,
+            child: IconGet(_weather),
+          ),
+          Container(
+              margin: const EdgeInsets.all(5.0),
+              child: Text(
+                _weather.description,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 20, color: textC),
+              )),
+        ]),
+        const SizedBox(
+          height: 30,
+          width: 30,
         ),
-        Container(
-            margin: const EdgeInsets.all(5.0),
-            child: Text(
-              _weather.description,
-              style: TextStyle(
-                  fontWeight: FontWeight.bold, fontSize: 20, color: textC),
-            )),
+        Text(
+          "${_weather.temp}°C",
+          textAlign: TextAlign.center,
+          style: TextStyle(
+              fontWeight: FontWeight.bold, fontSize: 35, color: textC),
+        ),
       ]),
-      const SizedBox(
-        height: 30,
-        width: 30,
-      ),
-      Text(
-        "${_weather.temp}°C",
-        textAlign: TextAlign.center,
-        style:
-            TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: textC),
-      ),
-    ]),
+    ),
+
+    //---------------------------------------------------------------------------------------------------------
+
     Container(
         margin: const EdgeInsets.all(5.0),
         child: Text(

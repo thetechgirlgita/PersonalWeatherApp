@@ -40,132 +40,182 @@ class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: backgroundC,
-        appBar: AppBar(
-          backgroundColor: appbarC,
-          centerTitle: true,
-          title: const Text("Weather Forecast",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 25,
-                fontWeight: FontWeight.bold,
-              )),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-              child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.location_pin,
-                      size: 40,
-                      color: textC,
-                    ),
-                    const Text(location,
-                        style: TextStyle(
-                          fontSize: 25,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        )),
-                  ]),
+    return Container(
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Colors.purple, Colors.pinkAccent])),
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              backgroundColor: Colors.transparent,
+              centerTitle: true,
+              title: const Text("Weather Forecast",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                  )),
             ),
-            const SizedBox(
-              height: 40,
-            ),
-            Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  FutureBuilder(
-                    builder: (context, snapshot) {
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.location_pin,
+                          size: 40,
+                          color: textC,
+                        ),
+                        const Text(location,
+                            style: TextStyle(
+                              fontSize: 25,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            )),
+                      ]),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      FutureBuilder(
+                        builder: (context, snapshot) {
 // ignore: unnecessary_null_comparison
-                      if (snapshot.hasData) {
-                        _weather = snapshot.data as Weather;
+                          if (snapshot.hasData) {
+                            _weather = snapshot.data as Weather;
 // ignore: unnecessary_null_comparison
-                        if (snapshot.hasError) {
-                          return const Text("Error getting weather");
-                        } else {
-                          return weatherBox(_weather);
-                        }
-                      } else {
-                        return const CircularProgressIndicator();
-                      }
-                    },
-                    future: getCurrentWeather(),
-                  ),
-                ]),
-          ],
-        ));
+                            if (snapshot.hasError) {
+                              return const Text("Error getting weather");
+                            } else {
+                              return weatherBox(_weather);
+                            }
+                          } else {
+                            return const CircularProgressIndicator();
+                          }
+                        },
+                        future: getCurrentWeather(),
+                      ),
+                    ]),
+              ],
+            )));
   }
 }
 
 Widget weatherBox(Weather _weather) {
-  return
-    Column(mainAxisSize: MainAxisSize.min, children: [
+  return Column(mainAxisSize: MainAxisSize.min, children: [
     Container(
       height: 180,
       width: 340,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10),
-        color: backgroundC,
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.amber,
-            offset: Offset(-2, -2),
-            blurRadius: 10,
-            spreadRadius: 1.5,
-          ),
-        ],
-      ),
       child: Row(children: [
         Column(children: [
           Container(
             width: 100,
-            height: 100,
-            child: IconGet(_weather),
+            height: 130,
+            child: IconGet(
+              _weather,
+            ),
           ),
           Container(
               margin: const EdgeInsets.all(5.0),
               child: Text(
                 _weather.description,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 20, color: textC),
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                    color: Colors.white),
               )),
         ]),
         const SizedBox(
           height: 30,
-          width: 30,
+          width: 15,
         ),
         Text(
           "${_weather.temp}°C",
           textAlign: TextAlign.center,
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 35, color: textC),
+              fontWeight: FontWeight.bold,
+              fontSize: 45,
+              color: Colors.yellowAccent),
         ),
       ]),
     ),
-
+// Container Style nad temperature body.
     //---------------------------------------------------------------------------------------------------------
 
     Container(
-        margin: const EdgeInsets.all(5.0),
+        margin: const EdgeInsets.all(50),
         child: Text(
-          "Feels:${_weather.feelsLike}°C",
+          "Feels : ${_weather.feelsLike}°C",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: textC),
+              fontWeight: FontWeight.bold,
+              fontSize: 30,
+              color: Colors.yellowAccent),
         )),
+
     Container(
-        margin: const EdgeInsets.all(5.0),
-        child: Text(
-          "Max: ${_weather.high}°C Mini :${_weather.low}°C",
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: textC),
-        )),
+      margin: const EdgeInsets.all(5.0),
+      child: Row(children: [
+        const Icon(
+          Icons.arrow_upward_sharp,
+          color: Colors.white,
+        ),
+        Text("   Max :  ${_weather.high}°C ",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.yellowAccent)),
+      ]),
+    ),
+
+    Container(
+      margin: const EdgeInsets.all(20),
+      child: Row(
+        children: [
+          const Icon(
+            Icons.arrow_downward,
+            color: Colors.white,
+          ),
+          Text(
+            "  Mini :  ${_weather.low}°C    ",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20,
+                color: Colors.yellowAccent),
+          ),
+        ],
+      ),
+    ),
+    /*Padding(
+        padding: EdgeInsets.only(top: 30),
+        child: Container(
+            height: 40,
+            width: 180,
+            color: Colors.transparent,
+            alignment: Alignment.center,
+
+              child: Row(children:const [
+                Icon(
+                  Icons.woman,
+                  color: Colors.white,
+                ),
+                Text("   ",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                textAlign: TextAlign.center,)
+              ]),
+            ))*/
   ]);
 }
 

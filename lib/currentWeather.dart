@@ -3,39 +3,36 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter/widgets.dart';
 import 'Colors.dart';
+
 import 'weatherStyle.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'apiKeys.dart';
 
+const location = "Noida, 137";
 
-const location = "Australia";
-
-
-Image IconGet (Weather _weather){
-  Image  iconC;
- iconC = Image.asset('lib/images/sunny.png');
- if(_weather.description == 'light rain'){
-   iconC = Image.asset('lib/images/weather-app.png');
- };
-  if ( _weather.description == 'cloudy'){
-    iconC = Image.asset('lib/images/cloudy.png');
+Image IconGet(Weather _weather) {
+  Image iconC;
+  iconC = Image.asset('lib/images/sunny.png');
+  if (_weather.description == 'light rain') {
+    iconC = Image.asset('lib/images/weather-app.png');
   }
-  if ( _weather.description == 'clear sky'){
+  ;
+  if (_weather.description == 'broken clouds') {
+    iconC = Image.asset('lib/images/cloud.png');
+  }
+  if (_weather.description == 'clear sky') {
     iconC = Image.asset('lib/images/sunny.png');
   }
-  if ( _weather.description == 'thunderbolt'){
+  if (_weather.description == 'thunderstorm') {
     iconC = Image.asset('lib/images/storm.png');
   }
 
-
-
   return iconC;
-  }
+}
 
 class CurrentWeatherPage extends StatefulWidget {
   const CurrentWeatherPage({Key? key, String? title}) : super(key: key);
-
 
   @override
   _CurrentWeatherPageState createState() => _CurrentWeatherPageState();
@@ -44,79 +41,91 @@ class CurrentWeatherPage extends StatefulWidget {
 class _CurrentWeatherPageState extends State<CurrentWeatherPage> {
   late Weather _weather;
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundC,
-      appBar: AppBar(
-        backgroundColor: appbarC,
-        centerTitle: true,
-        title: const Text("Weather Forecast",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
-              fontWeight: FontWeight.bold,
-            )),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: const [
-                Text(location,
-                    style: TextStyle(
-                      fontSize: 25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ]),
-          const SizedBox(
-            height: 40,
-          ),
-          Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                FutureBuilder(
-                  builder: (context, snapshot) {
-                    // ignore: unnecessary_null_comparison
-                    if (snapshot.hasData) {
-                      _weather = snapshot.data as Weather;
-                      // ignore: unnecessary_null_comparison
-                      if (snapshot.hasError) {
-                        return const Text("Error getting weather");
+        backgroundColor: backgroundC,
+        appBar: AppBar(
+          backgroundColor: appbarC,
+          centerTitle: true,
+          title: const Text("Weather Forecast",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              )),
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      size: 40,
+                      color: textC,
+                    ),
+                    const Text(location,
+                        style: TextStyle(
+                          fontSize: 25,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ]),
+            ),
+            const SizedBox(
+              height: 40,
+            ),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  FutureBuilder(
+                    builder: (context, snapshot) {
+// ignore: unnecessary_null_comparison
+                      if (snapshot.hasData) {
+                        _weather = snapshot.data as Weather;
+// ignore: unnecessary_null_comparison
+                        if (snapshot.hasError) {
+                          return const Text("Error getting weather");
+                        } else {
+                          return weatherBox(_weather);
+                        }
                       } else {
-                        return weatherBox(_weather);
+                        return const CircularProgressIndicator();
                       }
-                    } else {
-                      return const CircularProgressIndicator();
-                    }
-                  },
-                  future: getCurrentWeather(),
-                ),
-              ]),
-        ],
-      ),
-    );
+                    },
+                    future: getCurrentWeather(),
+                  ),
+                ]),
+          ],
+        ));
   }
 }
 
 Widget weatherBox(Weather _weather) {
-  return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-    Column(children:  [
-
-      Container(
-        width: 100,
-        height: 100,
-        child: IconGet(_weather),),
-
+  return Column(mainAxisSize: MainAxisSize.min, children: [
+    Row(
+        children: [
+      Column(
+          children: [
+        Container(
+          width: 100,
+          height: 100,
+          child: IconGet(_weather),
+        ),
+        Container(
+            margin: const EdgeInsets.all(5.0),
+            child: Text(
+              _weather.description,
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, fontSize: 20, color: textC),
+            )),
+      ]),
       const SizedBox(
         height: 30,
         width: 30,
@@ -128,13 +137,6 @@ Widget weatherBox(Weather _weather) {
             TextStyle(fontWeight: FontWeight.bold, fontSize: 35, color: textC),
       ),
     ]),
-    Container(
-        margin: const EdgeInsets.all(5.0),
-        child: Text(
-          _weather.description,
-          style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 20, color: textC),
-        )),
     Container(
         margin: const EdgeInsets.all(5.0),
         child: Text(
@@ -151,8 +153,6 @@ Widget weatherBox(Weather _weather) {
         )),
   ]);
 }
-
-
 
 Future getCurrentWeather() async {
   Weather weather;

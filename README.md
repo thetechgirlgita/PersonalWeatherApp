@@ -1,6 +1,6 @@
 # weatherapp
 
-Flutter weather app
+Flutter Weather Application. 
 
 
 
